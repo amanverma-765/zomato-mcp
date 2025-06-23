@@ -1,0 +1,37 @@
+[versions]
+kotlin = "2.1.20"
+shadow = "8.1.1"
+sandwich = "2.1.2"
+modelcontext = "0.5.0"
+slf4j = "2.0.9"
+ktor = "3.1.3"
+serialization = "1.8.1"
+kermit = "2.0.6"
+koin-bom = "4.1.0"
+
+
+[libraries]
+# Skydoves Sandwich
+sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
+sandwich-ktor = { module = "com.github.skydoves:sandwich-ktor", version.ref = "sandwich" }
+# ModelContext Protocol
+modelcontext-sdk = { module = "io.modelcontextprotocol:kotlin-sdk", version.ref = "modelcontext" }
+# Logging
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+# Ktor
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+# KotlinX Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+# Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-bom" }
+
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
