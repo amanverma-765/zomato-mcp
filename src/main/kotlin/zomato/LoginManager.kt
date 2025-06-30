@@ -16,10 +16,8 @@ import model.LoginTokenResponse
 import model.OtpLoginResp
 import model.OtpVerificationResp
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import java.util.UUID
 
-class ZomatoLoginFlow(private val client: HttpClient) {
-
+class LoginManager(private val client: HttpClient) {
     private val pkcePair = generatePKCEPair()
     private val state = generateState()
     private var loginChallenge: String? = null
@@ -28,7 +26,6 @@ class ZomatoLoginFlow(private val client: HttpClient) {
         "Accept" to "image/webp",
         "Accept-Encoding" to "br, gzip",
         "Host" to AppConstants.AUTH_HOST,
-        "X-Access-UUID" to UUID.randomUUID().toString(),
         "Cookie" to "zxcv=${pkcePair.first}; rurl=${AppConstants.REDIRECT_URI}; cid=${AppConstants.CLIENT_ID}"
     )
 

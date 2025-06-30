@@ -30,7 +30,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kermit)
     implementation(libs.koin.core)
-    implementation("io.ktor:ktor-client-okhttp-jvm:3.1.3")
+    implementation(libs.multiplatform.setting)
 }
 
 tasks.test {

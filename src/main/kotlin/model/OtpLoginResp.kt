@@ -28,7 +28,7 @@ data class OtpLoginResp(
     val areWhatsappAttemptsLeft: Boolean?,
 
     @SerialName("are_message_attempts_left")
-    val areMessageAttemptsLeft: Boolean?,
+    val areMsgAttemptsLeft: Boolean?,
 
     @SerialName("are_call_attempts_left")
     val areCallAttemptsLeft: Boolean?,

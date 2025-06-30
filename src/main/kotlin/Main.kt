@@ -10,11 +10,14 @@ import com.skydoves.sandwich.suspendOnSuccess
 import org.koin.core.context.startKoin
 
 suspend fun main() {
-    startKoin { modules(listOf(mainModule, ktorModule)) }
+    startKoin {
+        printLogger()
+        modules(mainModule, ktorModule)
+    }
 
     val zomato = Zomato()
 
-    val phone = "6386617609"
+    val phone = "6386617608"
     val loginResp = zomato.sendLoginOtp(phone)
     loginResp.suspendOnSuccess {
         print("Enter your OTP: ")
@@ -23,7 +26,7 @@ suspend fun main() {
             phoneNumber = phone,
             otp = otp
         ).suspendOnSuccess {
-            Logger.i(this.data.message)
+            Logger.i(this.data)
         }.onFailure {
             Logger.e(this.messageOrNull ?: "Failed to verify login otp")
         }

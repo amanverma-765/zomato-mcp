@@ -1,9 +1,18 @@
 package com.ark.di
 
-import com.ark.zomato.ZomatoLoginFlow
+import com.ark.utils.AuthTokenExt
+import com.ark.utils.SharedPref
+import com.ark.utils.ZomatoHeader
+import com.ark.zomato.LoginManager
+import com.russhwolf.settings.Settings
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val mainModule = module {
-    factoryOf(::ZomatoLoginFlow)
+    single<Settings> { Settings() }
+    factoryOf(::LoginManager)
+    singleOf(::SharedPref)
+    singleOf(::AuthTokenExt)
+    singleOf(::ZomatoHeader)
 }
