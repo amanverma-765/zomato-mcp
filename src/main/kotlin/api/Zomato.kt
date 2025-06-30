@@ -1,14 +1,13 @@
 package com.ark.api
 
 import com.ark.utils.AppConstants
-import com.ark.utils.AuthTokenExt
+import com.ark.utils.AuthTokenStore
 import com.ark.utils.SharedPref
+import com.ark.utils.UserInfoStore
 import com.ark.utils.generateRandomAndroidId
 import com.ark.zomato.LocationManager
 import com.ark.zomato.AuthManager
 import com.skydoves.sandwich.ApiResponse
-import io.modelcontextprotocol.kotlin.sdk.Role
-import io.modelcontextprotocol.kotlin.sdk.error
 import model.UserInfoResp
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -17,26 +16,14 @@ import java.util.UUID
 class Zomato() : KoinComponent {
 
     private val authManager: AuthManager by inject()
-    private val authTokenExt: AuthTokenExt by inject()
+    private val authTokenStore: AuthTokenStore by inject()
     private val sharedPref: SharedPref by inject()
     private val locationManager: LocationManager by inject()
+    private val userInfoStore: UserInfoStore by inject()
 
     init {
         sharedPref.setString(AppConstants.ZOMATO_UUID_KEY, UUID.randomUUID().toString())
         sharedPref.setString(AppConstants.ANDROID_ID_KEY, generateRandomAndroidId())
-    }
-
-    suspend fun getCurrentUser(): ApiResponse<UserInfoResp> {
-        try {
-            val userInfo = authManager.getCurrentUser()
-            sharedPref.setString(AppConstants.USER_NAME_KEY, userInfo.name)
-            sharedPref.setString(AppConstants.USER_EMAIL_KEY, userInfo.email)
-            sharedPref.setString(AppConstants.USER_ID_KEY, userInfo.id.toString())
-            sharedPref.setString(AppConstants.USER_MOB_NUMBER_KEY, userInfo.mobile)
-            return ApiResponse.Success(userInfo)
-        } catch (e: Exception) {
-            return ApiResponse.Failure.Exception(e)
-        }
     }
 
     suspend fun sendLoginOtp(phoneNumber: String, countryId: String = "1"): ApiResponse<String> {
@@ -70,10 +57,28 @@ class Zomato() : KoinComponent {
             if (!token.status) return ApiResponse.Failure.Exception(
                 Exception("Failed to get login token")
             )
-            authTokenExt.saveAllTokens(token)
+            authTokenStore.saveAllTokens(token)
             return ApiResponse.Success(verificationResponse.message)
         } catch (e: Exception) {
             return ApiResponse.Failure.Exception(e)
         }
+    }
+
+    suspend fun getCurrentUser(): ApiResponse<UserInfoResp> {
+        try {
+            val userInfo = authManager.getCurrentUser()
+            userInfoStore.saveUserInfo(userInfo)
+            return ApiResponse.Success(userInfo)
+        } catch (e: Exception) {
+            return ApiResponse.Failure.Exception(e)
+        }
+    }
+
+    suspend fun addNewLocation() {
+        locationManager.addNewLocation(
+            latitude = 28.656473,
+            longitude = 77.242943,
+            accuracy = 100.0
+        )
     }
 }

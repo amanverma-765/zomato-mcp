@@ -1,9 +1,10 @@
 package com.ark.utils
 
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 internal class ZomatoHeader(
-    private val authToken: AuthTokenExt,
+    private val authTokenStore: AuthTokenStore,
     private val sharedPref: SharedPref
 ) {
 
@@ -34,10 +35,11 @@ internal class ZomatoHeader(
         "X-Zomato-App-Version-Code" to AppConstants.APP_VERSION_CODE
     )
 
-    private fun optionalHeaders(): Map<String, String> {
+    private suspend fun optionalHeaders(): Map<String, String> {
         val lat = sharedPref.getString(AppConstants.DEVICE_LAT_KEY, "0.0")
         val lon = sharedPref.getString(AppConstants.DEVICE_LONG_KEY, "0.0")
         val uuid = sharedPref.getString(AppConstants.ZOMATO_UUID_KEY)
+        val authTokens = authTokenStore.getAllTokens()
         val androidId  = sharedPref.getString(AppConstants.ANDROID_ID_KEY, "e1e55d924188ae92")
 
         return buildMap {
@@ -47,12 +49,12 @@ internal class ZomatoHeader(
             put("X-User-Defined-Long", lon)
             put("X-Android-Id", androidId)
             if (uuid.isNotBlank()) put("X-Zomato-UUID", uuid)
-            authToken.getAccessToken()?.let { put("X-Access-Token", it) }
-            authToken.getZomatoAccessToken()?.let { put("X-Zomato-Access-Token", it) }
+            authTokens?.accessToken?.let { put("X-Access-Token", it) }
+            authTokens?.token?.accessToken?.let { put("X-Zomato-Access-Token", it) }
         }
     }
 
     fun getAllHeaders(): Map<String, String> {
-        return deviceInfoHeaders + staticHeaders + optionalHeaders()
+        return deviceInfoHeaders + staticHeaders + runBlocking { optionalHeaders() }
     }
 }

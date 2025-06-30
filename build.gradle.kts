@@ -31,6 +31,8 @@ dependencies {
     implementation(libs.kermit)
     implementation(libs.koin.core)
     implementation(libs.multiplatform.setting)
+    implementation(libs.xxfast.kstore)
+    implementation(libs.xxfast.kstore.file)
 }
 
 tasks.test {

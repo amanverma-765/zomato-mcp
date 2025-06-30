@@ -19,7 +19,8 @@ suspend fun main() {
 
     val user = zomato.getCurrentUser().getOrNull()
     if (user == null) login(zomato)
-    else Logger.e(user.toString())
+    else Logger.i(user.toString())
+    zomato.addNewLocation()
 }
 
 suspend fun login(zomato: Zomato) {
