@@ -11,6 +11,7 @@ internal class ZomatoHeader(
         "&source=android_market&version=16&device_manufacturer=Google&device_brand=google&device_model=Pixel+8&api_version=${AppConstants.APP_VERSION}&app_version=${AppConstants.UA_APP_VERSION}"
 
     private val deviceInfoHeaders = mapOf(
+        "Accept" to "image/webp",
         "User-Agent" to userAgent,
         "X-Installer-Package-Name" to "com.android.vending",
         "X-RIDER-INSTALLED" to "false",

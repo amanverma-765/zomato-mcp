@@ -15,15 +15,15 @@ import model.ConsentResp
 import model.LoginTokenResponse
 import model.OtpLoginResp
 import model.OtpVerificationResp
+import model.UserInfoResp
 import okhttp3.HttpUrl.Companion.toHttpUrl
 
-class LoginManager(private val client: HttpClient) {
+internal class AuthManager(private val client: HttpClient) {
     private val pkcePair = generatePKCEPair()
     private val state = generateState()
     private var loginChallenge: String? = null
 
     val authHeaders = mapOf(
-        "Accept" to "image/webp",
         "Accept-Encoding" to "br, gzip",
         "Host" to AppConstants.AUTH_HOST,
         "Cookie" to "zxcv=${pkcePair.first}; rurl=${AppConstants.REDIRECT_URI}; cid=${AppConstants.CLIENT_ID}"
@@ -150,6 +150,21 @@ class LoginManager(private val client: HttpClient) {
             throw IllegalStateException(response.status.description)
         }
         return response.body<LoginTokenResponse>()
+    }
+
+    suspend fun getCurrentUser(): UserInfoResp {
+        val userInfoUrl = "https://${AppConstants.API_HOST}/gw/user/info"
+        val response = client.get(userInfoUrl) {
+            headers {
+                append("Content-Type", "application/json; charset=UTF-8")
+                append("Accept-Encoding", "gzip, deflate, br")
+            }
+        }
+        if (!response.status.isSuccess()) {
+            Logger.e("Failed to get user info: ${response.status.description}")
+            throw IllegalStateException(response.status.description)
+        }
+        return response.body<UserInfoResp>()
     }
 
     private suspend fun getConsent(consentChallenge: String): ConsentResp {

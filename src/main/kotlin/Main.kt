@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.ark.api.Zomato
 import com.ark.di.ktorModule
 import com.ark.di.mainModule
+import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.messageOrNull
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
@@ -14,9 +15,14 @@ suspend fun main() {
         printLogger()
         modules(mainModule, ktorModule)
     }
-
     val zomato = Zomato()
 
+    val user = zomato.getCurrentUser().getOrNull()
+    if (user == null) login(zomato)
+    else Logger.e(user.toString())
+}
+
+suspend fun login(zomato: Zomato) {
     val phone = "6386617608"
     val loginResp = zomato.sendLoginOtp(phone)
     loginResp.suspendOnSuccess {

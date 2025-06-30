@@ -3,7 +3,8 @@ package com.ark.di
 import com.ark.utils.AuthTokenExt
 import com.ark.utils.SharedPref
 import com.ark.utils.ZomatoHeader
-import com.ark.zomato.LoginManager
+import com.ark.zomato.LocationManager
+import com.ark.zomato.AuthManager
 import com.russhwolf.settings.Settings
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -11,8 +12,9 @@ import org.koin.dsl.module
 
 val mainModule = module {
     single<Settings> { Settings() }
-    factoryOf(::LoginManager)
+    factoryOf(::AuthManager)
     singleOf(::SharedPref)
     singleOf(::AuthTokenExt)
     singleOf(::ZomatoHeader)
+    singleOf(::LocationManager)
 }
