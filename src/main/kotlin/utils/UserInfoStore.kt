@@ -7,7 +7,7 @@ import model.UserInfoResp
 
 class UserInfoStore {
 
-    private val store: KStore<UserInfoResp> = storeOf(file = Path("user_info.json"), version = 1)
+    private val store: KStore<UserInfoResp> = storeOf(file = Path("store/user_info.json"), version = 1)
 
     suspend fun saveUserInfo(userInfoResp: UserInfoResp) = store.set(userInfoResp)
 

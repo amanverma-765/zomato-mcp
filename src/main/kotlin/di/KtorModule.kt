@@ -43,7 +43,7 @@ val ktorModule = module {
             }
 
             install(Logging) {
-                level = LogLevel.INFO
+                level = LogLevel.ALL
                 logger = object : Logger {
                     override fun log(message: String) {
                         co.touchlab.kermit.Logger.i("[Ktor] $message")

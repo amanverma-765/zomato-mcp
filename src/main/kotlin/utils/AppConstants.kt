@@ -8,12 +8,11 @@ object AppConstants {
     const val AUTH_HOST = "accounts.zomato.com"
     const val API_HOST = "api.zomato.com"
 //    const val PAYMENT_HOST = "payments.zomato.com"
+
     const val APP_VERSION = "898"
     const val UA_APP_VERSION = "v18.9.8"
     const val APP_VERSION_CODE = "1710018980"
 
     const val ZOMATO_UUID_KEY = "ZOMATO_UUID"
-    const val DEVICE_LAT_KEY = "DEVICE_LAT"
-    const val DEVICE_LONG_KEY = "DEVICE_LONG"
     const val ANDROID_ID_KEY = "ANDROID_ID"
 }

@@ -8,7 +8,7 @@ import model.LoginTokenResponse
 
 class AuthTokenStore() {
 
-    private val store: KStore<LoginTokenResponse> = storeOf(file = Path("auth_tokens.json"), version = 1)
+    private val store: KStore<LoginTokenResponse> = storeOf(file = Path("store/auth_tokens.json"), version = 1)
 
     suspend fun saveAllTokens(loginToken: LoginTokenResponse) = store.set(loginToken)
 

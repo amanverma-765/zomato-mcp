@@ -1,8 +1,9 @@
 package com.ark.di
 
 import com.ark.utils.AuthTokenStore
+import com.ark.utils.LocationDataStore
 import com.ark.utils.SharedPref
-import com.ark.utils.ZomatoHeader
+import com.ark.utils.UserInfoStore
 import com.ark.zomato.AuthManager
 import com.ark.zomato.LocationManager
 import com.russhwolf.settings.Settings
@@ -15,5 +16,7 @@ val mainModule = module {
     factoryOf(::AuthManager)
     singleOf(::SharedPref)
     singleOf(::AuthTokenStore)
+    singleOf(::UserInfoStore)
     singleOf(::LocationManager)
+    singleOf(::LocationDataStore)
 }

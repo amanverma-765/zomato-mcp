@@ -20,11 +20,15 @@ suspend fun main() {
     val user = zomato.getCurrentUser().getOrNull()
     if (user == null) login(zomato)
     else Logger.i(user.toString())
-    zomato.addNewLocation()
+    zomato.addNewLocation(
+        latitude = 28.656473,
+        longitude = 77.242943,
+        horizontalAccuracy = 90.0
+    )
 }
 
 suspend fun login(zomato: Zomato) {
-    val phone = "6386617608"
+    val phone = "6386617609"
     val loginResp = zomato.sendLoginOtp(phone)
     loginResp.suspendOnSuccess {
         print("Enter your OTP: ")
