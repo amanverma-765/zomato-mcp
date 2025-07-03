@@ -12,7 +12,7 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import model.ConsentResp
-import model.LoginTokenResponse
+import model.LoginTokenResp
 import model.OtpLoginResp
 import model.OtpVerificationResp
 import model.UserInfoResp
@@ -129,7 +129,7 @@ internal class AuthManager(private val client: HttpClient) {
         return getConsentApproval(consentResponse.redirectTo)
     }
 
-    suspend fun getLoginToken(approval: ConsentApproval): LoginTokenResponse {
+    suspend fun getLoginToken(approval: ConsentApproval): LoginTokenResp {
         val tokenUrl = "https://accounts.zomato.com/token"
 
         val response = client.submitForm(
@@ -149,7 +149,7 @@ internal class AuthManager(private val client: HttpClient) {
             Logger.e("Failed to get login token: ${response.status.description}")
             throw IllegalStateException(response.status.description)
         }
-        return response.body<LoginTokenResponse>()
+        return response.body<LoginTokenResp>()
     }
 
     suspend fun getCurrentUser(): UserInfoResp {

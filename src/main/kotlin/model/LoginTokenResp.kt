@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginTokenResponse(
+data class LoginTokenResp(
     @SerialName("status")
     val status: Boolean,
 
