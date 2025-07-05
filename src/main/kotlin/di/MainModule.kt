@@ -1,11 +1,12 @@
 package com.ark.di
 
 import com.ark.utils.AuthTokenStore
-import com.ark.utils.LocationDataStore
+import com.ark.utils.LocationTokenStore
 import com.ark.utils.SharedPref
 import com.ark.utils.UserInfoStore
+import com.ark.utils.utils.AddressStore
 import com.ark.zomato.AuthManager
-import com.ark.zomato.LocationManager
+import com.ark.zomato.AddressManager
 import com.russhwolf.settings.Settings
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -17,6 +18,7 @@ val mainModule = module {
     singleOf(::SharedPref)
     singleOf(::AuthTokenStore)
     singleOf(::UserInfoStore)
-    singleOf(::LocationManager)
-    singleOf(::LocationDataStore)
+    singleOf(::AddressManager)
+    singleOf(::LocationTokenStore)
+    singleOf(::AddressStore)
 }

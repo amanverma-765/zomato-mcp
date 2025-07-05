@@ -6,14 +6,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LocationResp(
-    @SerialName("api_time_ms")
-    val apiTimeMs: Int,
-
-    @SerialName("footer_data")
-    val footerData: FooterData,
-
     @SerialName("location")
-    val location: Location,
+    val location: Location?,
+
+    @SerialName("subtitle")
+    val subtitle: String?,
 
     @SerialName("status")
     val status: String
@@ -90,11 +87,11 @@ data class LocationResp(
             @SerialName("id")
             val id: Int,
             @SerialName("latitude")
-            val latitude: String,
+            val latitude: Double,
             @SerialName("location_type")
             val locationType: String,
             @SerialName("longitude")
-            val longitude: String,
+            val longitude: Double,
             @SerialName("o2_serviceablity")
             val o2Serviceablity: Boolean,
             @SerialName("place_id")

@@ -13,6 +13,8 @@ data class LocationTokenResp(
 ) {
     @Serializable
     data class Location(
+        @SerialName("horizontal_accuracy")
+        val horizontalAccuracy: Int?,
         @SerialName("entity_id")
         val entityId: Int,
         @SerialName("entity_type")
@@ -34,9 +36,9 @@ data class LocationTokenResp(
         @SerialName("city")
         val city: City,
         @SerialName("user_defined_latitude")
-        val userDefinedLatitude: String,
+        val userDefinedLatitude: Double,
         @SerialName("user_defined_longitude")
-        val userDefinedLongitude: String,
+        val userDefinedLongitude: Double,
         @SerialName("display_title")
         val displayTitle: String,
         @SerialName("display_subtitle")

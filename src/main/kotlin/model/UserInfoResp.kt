@@ -15,5 +15,7 @@ data class UserInfoResp(
     @SerialName("email")
     val email: String,
     @SerialName("mobile")
-    val mobile: String
+    val mobile: String,
+    @SerialName("theme")
+    val theme: String?
 )

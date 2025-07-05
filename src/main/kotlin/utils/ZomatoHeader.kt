@@ -6,7 +6,7 @@ import java.util.*
 internal class ZomatoHeader(
     private val authTokenStore: AuthTokenStore,
     private val sharedPref: SharedPref,
-    private val locationDataStore: LocationDataStore
+    private val locationTokenStore: LocationTokenStore
 ) {
 
     private val userAgent =
@@ -21,11 +21,13 @@ internal class ZomatoHeader(
         "X-Device-Language" to "en-US",
         "X-Device-Width" to "1080",
         "X-Device-Height" to "2201",
-        "X-Device-Pixel-Ratio" to "3.0",
+        "X-Device-Pixel-Ratio" to "2.625",
         "X-Client-Id" to "zomato_android_v2",
         "X-APP-APPEARANCE" to "LIGHT",
         "Connection" to "keep-alive",
         "X-Zomato-Is-Metric" to "true",
+        "X-Network-Type" to "wifi",
+        "x-perf-class" to "PERFORMANCE_HIGH"
     )
 
     private val staticHeaders = mapOf(
@@ -37,20 +39,23 @@ internal class ZomatoHeader(
     )
 
     private suspend fun optionalHeaders(): Map<String, String> {
-        val locationData = locationDataStore.getLocationData()?.location
-        val lat = locationData?.entityLatitude ?: 0.0
-        val lon = locationData?.entityLongitude ?: 0.0
+        val locationData = locationTokenStore.getLocationTokenData()?.location
+        val udLat = locationData?.userDefinedLatitude ?: 0.0
+        val udLon = locationData?.userDefinedLongitude ?: 0.0
+        val currLat = locationData?.entityLatitude ?: 0.0
+        val currLon = locationData?.entityLongitude ?: 0.0
         val uuid = sharedPref.getString(AppConstants.ZOMATO_UUID_KEY)
         val authTokens = authTokenStore.getAllTokens()
-        val androidId  = sharedPref.getString(AppConstants.ANDROID_ID_KEY, "e1e55d924188ae92")
+        val androidId = sharedPref.getString(AppConstants.ANDROID_ID_KEY, "e1e55d924188ae92")
 
         return buildMap {
-            put("X-Present-Lat", lat.toString())
-            put("X-Present-Long", lon.toString())
-            put("X-User-Defined-Lat", lat.toString())
-            put("X-User-Defined-Long", lon.toString())
+            put("X-Present-Lat", currLat.toString())
+            put("X-Present-Long", currLon.toString())
+            put("X-User-Defined-Lat", udLat.toString())
+            put("X-User-Defined-Long", udLon.toString())
             put("X-Android-Id", androidId)
             if (uuid.isNotBlank()) put("X-Zomato-UUID", uuid)
+            locationData?.horizontalAccuracy?.let { put("X-Present-Horizontal-Accuracy", it.toString()) }
             authTokens?.accessToken?.let { put("X-Access-Token", it) }
             authTokens?.token?.accessToken?.let { put("X-Zomato-Access-Token", it) }
             locationData?.token?.let { put("x-location-token", it) }
